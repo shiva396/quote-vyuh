@@ -1,0 +1,22 @@
+{
+  "name": "quote-vyuh",
+  "version": "1.0.0",
+  "description": "A Vyuh Flutter project created by Vyuh CLI.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "sanity": "4.2.0",
+      "@sanity/types": "4.2.0"
+    }
+  }
+}
