@@ -14,3 +14,18 @@ pubspec_overrides.yaml
 *.lock
 mason-lock.json
 .mason
+
+# Large dump and crash files
+*.hprof
+*.heap
+*.heapsnapshot
+*.dmp
+*.dump
+*.core
+core
+hs_err_pid*
+replay_pid*
+*.crash
+*.stackdump
+*.trace
+*.prof
