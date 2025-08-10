@@ -30,7 +30,6 @@ class TitleQuote {
 
 final liveProvider = vyuh.content.provider.live;
 
-// Simple in-memory favorites store for the session
 final ValueNotifier<Set<String>> favoritesNotifier =
     ValueNotifier<Set<String>>(<String>{});
 
@@ -66,7 +65,6 @@ class _QuoteListPageState extends State<QuoteListPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Real-time stream for all titles
     final titlesStream = liveProvider.fetchMultiple<TitleQuote>(
       '*[_type == "quote"]',
       fromJson: TitleQuote.fromJson,
@@ -96,7 +94,6 @@ class _QuoteListPageState extends State<QuoteListPage> {
       ),
       body: Column(
         children: [
-          // Search bar
           Container(
             padding: const EdgeInsets.all(16),
             color: Theme.of(context).colorScheme.surface,
@@ -127,7 +124,6 @@ class _QuoteListPageState extends State<QuoteListPage> {
               ),
             ),
           ),
-          // List content
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -150,12 +146,10 @@ class _QuoteListPageState extends State<QuoteListPage> {
 
                   var quotes = snapshot.data!;
 
-                  // Filter by favorites if enabled
                   if (showFavoritesOnly) {
                     quotes = quotes.where((q) => isFavorite(q.id)).toList();
                   }
 
-                  // Filter by search query
                   if (searchQuery.isNotEmpty) {
                     quotes = quotes
                         .where((q) =>
@@ -223,136 +217,128 @@ class _QuoteListPageState extends State<QuoteListPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(16),
-                          onTap: () {
-                            // Navigate back to quote screen
-                            context.go('/quote_screen');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '"${obj.quote}"',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              height: 1.5,
-                                              fontSize: 16,
-                                            ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(20),
-                                        onTap: () => toggleFavorite(obj.id),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Icon(
-                                            isFav
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: isFav
-                                                ? Colors.pinkAccent
-                                                : Colors.grey.shade400,
-                                            size: 20,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '"${obj.quote}"',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            height: 1.5,
+                                            fontSize: 16,
                                           ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(20),
+                                      onTap: () => toggleFavorite(obj.id),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          isFav
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: isFav
+                                              ? Colors.pinkAccent
+                                              : Colors.grey.shade400,
+                                          size: 20,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        '— ${obj.author}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              fontStyle: FontStyle.italic,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '— ${obj.author}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                     ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(20),
-                                        onTap: () {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: const Text(
-                                                  'Share functionality coming soon!'),
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              action: SnackBarAction(
-                                                label: 'Preview',
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        AlertDialog(
-                                                      title: const Text(
-                                                          'Share Preview'),
-                                                      content: Text(
-                                                        '"${obj.quote}"\n\n— ${obj.author}',
-                                                        style: const TextStyle(
-                                                            height: 1.5),
-                                                      ),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop(),
-                                                          child: const Text(
-                                                              'Close'),
-                                                        ),
-                                                      ],
+                                  ),
+                                  Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(20),
+                                      onTap: () {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: const Text(
+                                                'Share functionality coming soon!'),
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            action: SnackBarAction(
+                                              label: 'Preview',
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    title: const Text(
+                                                        'Share Preview'),
+                                                    content: Text(
+                                                      '"${obj.quote}"\n\n— ${obj.author}',
+                                                      style: const TextStyle(
+                                                          height: 1.5),
                                                     ),
-                                                  );
-                                                },
-                                              ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(),
+                                                        child:
+                                                            const Text('Close'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
                                             ),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Icon(
-                                            Icons.share_outlined,
-                                            size: 18,
-                                            color: Colors.grey.shade600,
                                           ),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Icon(
+                                          Icons.share_outlined,
+                                          size: 18,
+                                          color: Colors.grey.shade600,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       );

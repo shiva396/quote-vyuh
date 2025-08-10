@@ -3,8 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quote_feature/quote_list.dart';
-import 'package:quote_feature/utils/home_screen_widget_utils.dart';
-import 'package:quote_feature/utils/quote_share_utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 // Pale gradient combinations for better text readability
 
@@ -61,11 +60,11 @@ class _QuotePageState extends State<QuotePage> {
   }
 
   void _shareQuote(TitleQuote quote) {
-    QuoteShareUtils.shareQuote(quote, subject: 'Quote of the Day');
+    Share.share('*Quote of the Day*\n\n"${quote.quote}"\n\n— ${quote.author}');
   }
 
   void _addToHomeScreen(TitleQuote quote) {
-    HomeScreenWidgetUtils.addToHomeScreen(context, quote, _currentGradient);
+   //TODO
   }
 
   @override
