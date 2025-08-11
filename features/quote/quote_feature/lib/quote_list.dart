@@ -19,7 +19,7 @@ class TitleQuote {
     //     json['author'][0]['children'].isNotEmpty) {
     //   authorText = json['author'][0]['children'][0]['text'] ?? '';
     // }
-    print('json: $json');
+    print('json ID: ${json['_id']} /n json Quote: ${json['quote']} /n json Author: ${json['author']}');
     return TitleQuote(
       id: json['_id'] ?? '',
       quote: json['quote'] ?? 'helo',

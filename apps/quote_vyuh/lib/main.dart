@@ -27,10 +27,9 @@ PluginDescriptor _getPlugins() {
       provider: SanityContentProvider(
         SanityClient(
           SanityConfig(
-            projectId: '6ao5kpeg',
+            projectId: vc.vyuh.env.get('QUOTE_PROJECTID'),
             dataset: 'production',
-            token:
-                'sk0cq6mlJmnICfKaHdhgzxj1ti5PN0XzVBNUvjsFXzizs6JIPRA4LA3RqFGqRsZDilpV2qoy5tqqzDWbJBcq2UU0IpsSgws41b5zsV90IlY30ogaJJJLO4W7MScVrrwXq8gf95Vv2ogqmw9Ypl17DqunioKntV3MAWOovvzw4sMogK6QIGUg',
+            token: vc.vyuh.env.get('QUOTE_TOKEN'),
             perspective: Perspective.drafts,
             explainQuery: true,
             useCdn: false,
